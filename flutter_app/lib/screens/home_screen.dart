@@ -89,8 +89,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   onPressed: () {
                     Navigator.pushNamed(context, "/category");
                   },
-                  icon: const Icon(Icons.category),
-                  label: const Text("Go to Category"),
+                  icon: const Icon(Icons.category, color: Colors.white),
+                  label: const Text("Go to Category",style: TextStyle(color: Colors.white)),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.deepPurple,
                     padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
@@ -105,8 +105,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   onPressed: () {
                     Navigator.pushNamed(context, "/product");
                   },
-                  icon: const Icon(Icons.shopping_bag),
-                  label: const Text("Go to Product"),
+                  icon: const Icon(Icons.shopping_bag, color: Colors.white),
+                  label: const Text("Go to Product",style: TextStyle(color: Colors.white)),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.green,
                     padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
@@ -119,8 +119,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 // ⭐ Logout Button
                 ElevatedButton.icon(
                   onPressed: _logout,
-                  icon: const Icon(Icons.logout),
-                  label: const Text("Logout"),
+                  icon: const Icon(Icons.logout, color: Colors.white),
+                  label: const Text("Logout",style: TextStyle(color: Colors.white)),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.redAccent,
                     padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 20),

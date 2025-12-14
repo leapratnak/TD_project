@@ -53,7 +53,7 @@ class _MyAppState extends State<MyApp> {
       routes: {
         '/login': (context) => const LoginScreen(),
         '/home': (context) => const HomeScreen(),
-        '/category': (context) => CategoryScreen(), // 👈 Must exist
+        '/category': (context) => CategoryScreen(), 
         '/product': (context) => ProductListScreen(),
       },
 

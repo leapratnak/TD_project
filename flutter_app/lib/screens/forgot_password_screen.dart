@@ -3,17 +3,26 @@ import '../services/api_service.dart';
 import 'reset_screen.dart';
 
 class ForgotScreen extends StatefulWidget {
+  const ForgotScreen({Key? key}) : super(key: key);
+
   @override
   State<ForgotScreen> createState() => _ForgotScreenState();
 }
 
 class _ForgotScreenState extends State<ForgotScreen> {
-  final _email = TextEditingController();
+  final TextEditingController _email = TextEditingController();
   bool _loading = false;
+  String? _error;
 
   void _sendOTP() async {
+    if (_email.text.trim().isEmpty) {
+      setState(() => _error = "Please enter your email");
+      return;
+    }
+
     setState(() {
       _loading = true;
+      _error = null;
     });
 
     try {
@@ -21,20 +30,13 @@ class _ForgotScreenState extends State<ForgotScreen> {
         'email': _email.text.trim(),
       });
 
-      setState(() {
-        _loading = false;
-      });
-
       if (res['status'] == 200) {
-        // Show SnackBar for 20 seconds
+        if (!mounted) return;
+
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: const Text("OTP sent to your email"),
-            duration: const Duration(seconds: 3),
-          ),
+          const SnackBar(content: Text("OTP sent to your email")),
         );
 
-        // Navigate to reset screen
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -42,45 +44,80 @@ class _ForgotScreenState extends State<ForgotScreen> {
           ),
         );
       } else {
-        final errorMessage = res['body']?['error']?.toString() ?? 'Error';
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(errorMessage),
-            duration: const Duration(seconds: 5),
-          ),
-        );
+        setState(() {
+          _error = res['body']?['error']?.toString() ?? 'Failed to send OTP';
+        });
       }
     } catch (e) {
-      setState(() {
-        _loading = false;
-      });
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: const Text("Something went wrong. Please try again."),
-          duration: const Duration(seconds: 5),
-        ),
-      );
+      setState(() => _error = "Something went wrong. Try again.");
+    } finally {
+      if (mounted) setState(() => _loading = false);
     }
+  }
+
+  @override
+  void dispose() {
+    _email.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Forgot Password")),
-      body: Padding(
+      appBar: AppBar(
+        title: const Text("Forgot Password", style: TextStyle(color: Colors.white)),
+        backgroundColor: Colors.deepPurple,
+        elevation: 0,
+      ),
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
+            const SizedBox(height: 40),
+            const Icon(Icons.lock_reset, size: 80, color: Colors.deepPurple),
+            const SizedBox(height: 20),
+            const Text(
+              "Reset your password",
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 40),
+
             TextField(
               controller: _email,
-              decoration: const InputDecoration(labelText: "Email"),
+              decoration: const InputDecoration(
+                labelText: "Email",
+                border: OutlineInputBorder(),
+                prefixIcon: Icon(Icons.email),
+              ),
             ),
+
             const SizedBox(height: 12),
-            ElevatedButton(
-              onPressed: _loading ? null : _sendOTP,
-              child: _loading
-                  ? const CircularProgressIndicator()
-                  : const Text("Send OTP"),
+            if (_error != null)
+              Text(_error!, style: const TextStyle(color: Colors.red)),
+
+            const SizedBox(height: 16),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: _loading ? null : _sendOTP,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.deepPurple,
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+                child: _loading
+                    ? const SizedBox(
+                        width: 24,
+                        height: 24,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2,
+                          color: Colors.white,
+                        ),
+                      )
+                    : const Text("Send OTP", style: TextStyle(color: Colors.white)),
+              ),
             ),
           ],
         ),

@@ -10,7 +10,10 @@ import '../models/category.dart';
 import '../models/debouncer.dart';
 import '../services/product_service.dart';
 import '../services/category_service.dart';
+import '../services/api_service.dart';
 import '../screens/dialog/product_dialog.dart';
+
+
 
 class ProductListScreen extends StatefulWidget {
   const ProductListScreen({Key? key}) : super(key: key);
@@ -85,7 +88,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
             price: p.price,
             categoryId: p.categoryId,
             categoryName: p.categoryName,
-            imageUrl: 'http://192.168.56.1:3000${p.imageUrl}',
+            imageUrl: '${ApiService.baseUrl}${p.imageUrl}',
           );
         }
         return p;
