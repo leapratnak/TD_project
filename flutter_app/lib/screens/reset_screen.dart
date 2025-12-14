@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/widgets/responsive_form.dart';
 import '../services/api_service.dart';
 
 class ResetScreen extends StatefulWidget {
@@ -121,8 +122,7 @@ class _ResetScreenState extends State<ResetScreen> {
         backgroundColor: Colors.deepPurple,
         elevation: 0,
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
+      body: ResponsiveForm(
         child: Column(
           children: [
             const SizedBox(height: 40),

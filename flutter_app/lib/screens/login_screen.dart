@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/widgets/responsive_form.dart';
 import '../services/api_service.dart';
 import 'home_screen.dart';
 import 'signup_screen.dart';
@@ -70,8 +71,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text("Login", style: TextStyle(color: Colors.white)), backgroundColor: Colors.deepPurple, elevation: 0),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
+      body: ResponsiveForm(
         child: Column(
           children: [
             const SizedBox(height: 40),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/widgets/responsive_form.dart';
 import '../services/api_service.dart';
 import 'reset_screen.dart';
 
@@ -69,8 +70,7 @@ class _ForgotScreenState extends State<ForgotScreen> {
         backgroundColor: Colors.deepPurple,
         elevation: 0,
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
+      body: ResponsiveForm(
         child: Column(
           children: [
             const SizedBox(height: 40),
